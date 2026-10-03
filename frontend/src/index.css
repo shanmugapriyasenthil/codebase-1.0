@@ -1,0 +1,257 @@
+:root {
+  --font-sans: 'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', ui-monospace, Menlo, Monaco, Consolas, monospace;
+
+  /* Cosmic Deep Space Theme (Image 2 & 3 Reference) */
+  --bg-app: #060814;
+  --bg-surface: #0a0d1e;
+  --bg-card: rgba(14, 18, 36, 0.85);
+  --bg-card-hover: rgba(22, 28, 54, 0.92);
+  --bg-card-active: rgba(28, 36, 68, 0.98);
+  --bg-glass: rgba(8, 11, 26, 0.88);
+  --bg-glass-card: rgba(15, 20, 42, 0.8);
+
+  --border-subtle: rgba(59, 130, 246, 0.16);
+  --border-card: rgba(79, 110, 180, 0.28);
+  --border-hover: rgba(99, 140, 246, 0.55);
+  --border-glow: rgba(59, 130, 246, 0.6);
+
+  --text-primary: #f8fafc;
+  --text-secondary: #94a3b8;
+  --text-muted: #64748b;
+  --text-dim: #475569;
+
+  --accent-primary: #3b82f6;
+  --accent-primary-hover: #2563eb;
+  --accent-primary-glow: rgba(59, 130, 246, 0.35);
+  --accent-cyan: #06b6d4;
+  --accent-cyan-glow: rgba(6, 182, 212, 0.3);
+  --accent-emerald: #10b981;
+  --accent-purple: #8b5cf6;
+  --accent-purple-glow: rgba(139, 92, 246, 0.35);
+  --accent-pink: #ec4899;
+  --accent-pink-glow: rgba(236, 72, 153, 0.35);
+  --accent-amber: #f59e0b;
+
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 18px;
+  --radius-xl: 24px;
+  --radius-full: 9999px;
+
+  --shadow-sm: 0 2px 6px rgba(0, 0, 0, 0.4);
+  --shadow-card: 0 10px 30px -5px rgba(0, 0, 0, 0.6), 0 0 0 1px var(--border-card);
+  --shadow-elevated: 0 20px 50px -10px rgba(0, 0, 0, 0.8), 0 0 0 1px var(--border-hover);
+  --shadow-glow: 0 0 30px -4px var(--accent-primary-glow);
+  --shadow-neon: 0 0 24px rgba(59, 130, 246, 0.25), 0 0 40px rgba(139, 92, 246, 0.15);
+
+  --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-normal: 240ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-smooth: 400ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  background-color: var(--bg-app);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  font-size: 14px;
+  line-height: 1.5;
+  letter-spacing: -0.011em;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+#root {
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--bg-app);
+  background-image:
+    radial-gradient(ellipse 90% 60% at 50% -10%, rgba(37, 99, 235, 0.22), transparent 70%),
+    radial-gradient(ellipse 70% 50% at 90% 85%, rgba(139, 92, 246, 0.18), transparent 60%),
+    radial-gradient(ellipse 60% 40% at 10% 50%, rgba(6, 182, 212, 0.14), transparent 60%);
+  background-attachment: fixed;
+  position: relative;
+  z-index: 1;
+}
+
+/* Custom Sleek Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border-hover);
+  border-radius: 999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--accent-primary);
+}
+
+::selection {
+  background: rgba(59, 130, 246, 0.35);
+  color: #fff;
+}
+
+code,
+pre,
+kbd {
+  font-family: var(--font-mono);
+}
+
+/* React Flow Overrides for Deep Cosmic Look */
+.react-flow {
+  background-color: #070914 !important;
+}
+
+.react-flow__background {
+  background-color: transparent !important;
+}
+
+.react-flow__controls {
+  background: rgba(14, 18, 36, 0.95) !important;
+  border: 1px solid var(--border-card) !important;
+  border-radius: var(--radius-md) !important;
+  box-shadow: var(--shadow-card) !important;
+  backdrop-filter: blur(10px);
+  overflow: hidden;
+  padding: 3px !important;
+}
+
+.react-flow__controls-button {
+  background: transparent !important;
+  border-bottom: 1px solid var(--border-subtle) !important;
+  color: var(--text-secondary) !important;
+  fill: var(--text-secondary) !important;
+  width: 28px !important;
+  height: 28px !important;
+  transition: all var(--transition-fast) !important;
+}
+
+.react-flow__controls-button:last-child {
+  border-bottom: none !important;
+}
+
+.react-flow__controls-button:hover {
+  background: var(--bg-card-hover) !important;
+  color: #ffffff !important;
+  fill: #ffffff !important;
+}
+
+.react-flow__minimap {
+  background: rgba(10, 13, 30, 0.95) !important;
+  border: 1px solid var(--border-card) !important;
+  border-radius: var(--radius-md) !important;
+  box-shadow: var(--shadow-card) !important;
+}
+
+.react-flow__edge-path {
+  stroke: var(--accent-cyan) !important;
+  stroke-width: 2 !important;
+  stroke-dasharray: 6 !important;
+  filter: drop-shadow(0 0 6px rgba(6, 182, 212, 0.7));
+}
+
+.react-flow__node {
+  font-family: var(--font-mono) !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  color: var(--text-primary) !important;
+  background: rgba(18, 24, 48, 0.95) !important;
+  border: 1px solid var(--border-hover) !important;
+  border-radius: var(--radius-md) !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5), 0 0 14px rgba(59, 130, 246, 0.25) !important;
+  padding: 8px 14px !important;
+  transition: all var(--transition-fast) !important;
+  backdrop-filter: blur(6px);
+}
+
+.react-flow__node:hover {
+  border-color: var(--accent-primary) !important;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6), 0 0 20px rgba(59, 130, 246, 0.55) !important;
+  transform: translateY(-2px);
+}
+
+/* Animations */
+@keyframes spinGlobe {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes floatBot {
+
+  0%,
+  100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+
+  50% {
+    transform: translateY(-12px) rotate(2deg);
+  }
+}
+
+@keyframes pulseGlow {
+
+  0%,
+  100% {
+    opacity: 0.8;
+    filter: drop-shadow(0 0 8px var(--accent-primary-glow));
+  }
+
+  50% {
+    opacity: 1;
+    filter: drop-shadow(0 0 22px var(--accent-primary-glow));
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 0;
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  font-weight: 700;
+  letter-spacing: -0.025em;
+}
+
+p {
+  margin: 0;
+  color: var(--text-secondary);
+}

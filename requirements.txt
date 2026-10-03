@@ -1,0 +1,9 @@
+sentence-transformers
+chromadb
+langchain-groq
+python-dotenv
+networkx
+matplotlib
+fastapi
+uvicorn
+python-multipart

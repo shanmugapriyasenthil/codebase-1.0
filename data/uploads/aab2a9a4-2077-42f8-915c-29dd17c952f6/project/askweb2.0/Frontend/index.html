@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AskWeb 2.0</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Segoe UI", sans-serif;
+}
+
+body {
+    background: #eef2ff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+/* MAIN BOX */
+.container {
+    width: 100%;
+    max-width: 820px;
+    height: 90vh;
+    background: #ffffff;
+    border-radius: 18px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+/* HEADER */
+.header {
+    padding: 20px;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.header h1 {
+    font-size: 20px;
+    color: #2563eb;
+}
+
+.header p {
+    font-size: 13px;
+    color: #6b7280;
+}
+
+/* CHAT AREA */
+.chat-box {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    background: #f9fafb;
+}
+
+/* MESSAGE ROW */
+.message-row {
+    display: flex;
+}
+
+/* USER RIGHT */
+.message-row.user {
+    justify-content: flex-end;
+}
+
+/* BOT LEFT */
+.message-row.bot {
+    justify-content: flex-start;
+}
+
+/* MESSAGE BOX */
+.message {
+    max-width: 70%;
+    padding: 14px 16px;
+    border-radius: 14px;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+/* USER STYLE */
+.message.user {
+    background: #2563eb;
+    color: white;
+    border-bottom-right-radius: 6px;
+}
+
+/* BOT STYLE */
+.message.bot {
+    background: #e5e7eb;
+    color: #111827;
+    border-bottom-left-radius: 6px;
+}
+
+/* SOURCES */
+.sources {
+    margin-top: 8px;
+}
+
+.sources a {
+    display: block;
+    font-size: 13px;
+    color: #2563eb;
+    text-decoration: none;
+    margin-top: 4px;
+}
+
+.sources a:hover {
+    text-decoration: underline;
+}
+
+/* INPUT AREA */
+.input-area {
+    padding: 16px;
+    border-top: 1px solid #e5e7eb;
+    background: #ffffff;
+}
+
+/* INPUT CONTAINER */
+.input-container {
+    display: flex;
+    gap: 10px;
+}
+
+/* INPUT FIELD */
+.input-container input {
+    flex: 1;
+    padding: 14px;
+    border-radius: 12px;
+    border: 1px solid #d1d5db;
+    font-size: 14px;
+    outline: none;
+}
+
+/* BUTTON */
+.input-container button {
+    padding: 14px 20px;
+    border-radius: 12px;
+    border: none;
+    background: #2563eb;
+    color: white;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.input-container button:hover {
+    background: #1e40af;
+}
+
+/* TYPING */
+.typing {
+    font-size: 13px;
+    color: #6b7280;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="header">
+        <h1>AskWeb 2.0</h1>
+        <p>AI chatbot with live web search</p>
+    </div>
+
+    <div class="chat-box" id="chatBox">
+        <div class="message-row bot">
+            <div class="message bot">
+                Hi Sri! Ask me anything 🙂
+            </div>
+        </div>
+    </div>
+
+    <div class="input-area">
+        <div class="input-container">
+            <input id="question" type="text" placeholder="Type your message..." onkeydown="handleKeyPress(event)">
+            <button id="sendBtn" onclick="askQuestion()">Send</button>
+        </div>
+    </div>
+
+</div>
+
+<script>
+const chatBox = document.getElementById("chatBox");
+const input = document.getElementById("question");
+const sendBtn = document.getElementById("sendBtn");
+
+function addMessage(text, sender, sources = []) {
+    const row = document.createElement("div");
+    row.className = `message-row ${sender}`;
+
+    const msg = document.createElement("div");
+    msg.className = `message ${sender}`;
+    msg.textContent = text;
+
+    if (sender === "bot" && sources.length > 0) {
+        const s = document.createElement("div");
+        s.className = "sources";
+
+        sources.forEach(url => {
+            const link = document.createElement("a");
+            link.href = url;
+            link.target = "_blank";
+            link.textContent = url;
+            s.appendChild(link);
+        });
+
+        msg.appendChild(s);
+    }
+
+    row.appendChild(msg);
+    chatBox.appendChild(row);
+    chatBox.scrollTop = chatBox.scrollHeight;
+}
+
+function addTyping() {
+    const row = document.createElement("div");
+    row.className = "message-row bot";
+    row.id = "typingRow";
+
+    const typing = document.createElement("div");
+    typing.className = "typing";
+    typing.innerText = "Thinking...";
+
+    row.appendChild(typing);
+    chatBox.appendChild(row);
+    chatBox.scrollTop = chatBox.scrollHeight;
+}
+
+function removeTyping() {
+    const t = document.getElementById("typingRow");
+    if (t) t.remove();
+}
+
+async function askQuestion() {
+    const question = input.value.trim();
+    if (!question) return;
+
+    addMessage(question, "user");
+    input.value = "";
+    sendBtn.disabled = true;
+    addTyping();
+
+    try {
+        const res = await fetch("http://127.0.0.1:8000/chat", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ question })
+        });
+
+        const data = await res.json();
+        removeTyping();
+
+        if (data.error) {
+            addMessage("Error: " + data.error, "bot");
+        } else {
+            addMessage(data.answer, "bot", data.sources);
+        }
+
+    } catch (err) {
+        removeTyping();
+        addMessage("Error: " + err.message, "bot");
+    }
+
+    sendBtn.disabled = false;
+}
+
+function handleKeyPress(e) {
+    if (e.key === "Enter") {
+        e.preventDefault();
+        askQuestion();
+    }
+}
+</script>
+</body>
+</html>
+
