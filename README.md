@@ -534,7 +534,8 @@ git push origin main
 
 ## License
 
-Specify the applicable project license here.
+
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
 
 ## Repository
 
